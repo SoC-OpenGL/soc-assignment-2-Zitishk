@@ -7,7 +7,7 @@
 #include <string>
 // Shader class , camera and cube contains vertex information
 #include "shader.hpp"
-//#include "camera.hpp"
+
 #include "cube.hpp"
 
 #include "texturing.hpp"
@@ -28,6 +28,9 @@ Camera:: Camera(void)
     HEIGHT = 600;
     fov =0.0f;
     firstmouse = true;
+    yaw=-90.0f;
+    pitch=0.0f;
+    uprotation=0.0f;
     
     lastX = WIDTH/2.0f;
     lastY = HEIGHT/2.0f;
@@ -59,14 +62,45 @@ void Camera:: proinp(GLFWwindow *window)
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         Campos += glm::normalize(glm::cross(Tarpos, camUp)) * cameraSpeed*5.0f;
     
+    
+    
     if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
         
-        camUp= glm::normalize(camUp + glm::cross(Tarpos,camUp)*cameraSpeed);
-        right = glm::normalize(glm::cross(Tarpos, camUp));
+        uprotation+= 0.3f;
+        if (uprotation>179.0f)
+            uprotation =179.0f;
+        else if (uprotation<-179.0f)
+            uprotation =-179.0f;
+        else
+        {
+            float ro =0.0f;
+            ro+=0.3f;
+            glm::vec4 temp= glm::vec4(camUp,1.0f);
+            glm::mat4 trans = glm::mat4(1.0f);
+            trans = glm::rotate(trans, glm::radians(ro), glm::vec3(0.0, 0.0, 1.0));
+            temp = trans*temp;
+            
+            camUp= glm::vec3(temp.x,temp.y,temp.z);
+        }
     }
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-        camUp= glm::normalize(camUp - glm::cross(Tarpos,camUp)*cameraSpeed);
-        right = glm::normalize(glm::cross(Tarpos, camUp));
+        
+        uprotation-= 0.3f;
+        if (uprotation>179.0f)
+            uprotation =179.0f;
+        else if (uprotation<-179.0f)
+            uprotation =-179.0f;
+        else
+        {
+            float ro =0.0f;
+            ro-=0.3f;
+            glm::vec4 temp= glm::vec4(camUp,1.0f);
+            glm::mat4 trans = glm::mat4(1.0f);
+            trans = glm::rotate(trans, glm::radians(ro), glm::vec3(0.0, 0.0, 1.0));
+            temp = trans*temp;
+            
+            camUp= glm::vec3(temp.x,temp.y,temp.z);
+        }
     }
     
     
@@ -95,24 +129,32 @@ void Camera:: mousepro (double xpos, double ypos)
     lastX = xpos;
     lastY = ypos;
     
-    const float sensitivity = 0.004f;
+    const float sensitivity = 0.1f;
     xoffset *= sensitivity;
     yoffset *= sensitivity;
     
-    Tarpos+= glm::normalize(camUp) * yoffset;
+    yaw   += xoffset;
+    pitch += yoffset;
     
-    glm::normalize(Tarpos);
+    if(pitch > 89.0f)
+        pitch = 89.0f;
+    if(pitch < -89.0f)
+        pitch = -89.0f;
     
-    camUp = glm::normalize(glm::cross(right,Tarpos));
+    glm::vec3 direction;
+    direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+    direction.y = sin(glm::radians(pitch));
+    direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
     
-    right.x+= -Tarpos.x * xoffset;
-    right.z+= -Tarpos.z * xoffset;
+    glm::vec4 temp= glm::vec4(direction,1.0f);
+    glm::mat4 trans = glm::mat4(1.0f);
+    trans = glm::rotate(trans, glm::radians(uprotation), glm::vec3(0.0, 0.0, 1.0));
+    temp = trans*temp;
     
-    glm::normalize(right);
+    direction= glm::vec3(temp.x,temp.y,temp.z);
     
-    Tarpos = glm::normalize(glm::cross(camUp,right));
+    Tarpos = glm::normalize(direction);
 }
-
 glm::mat4 Camera:: view()
 {
     glm::mat4 view=glm::mat4(1.0f);
@@ -126,3 +168,5 @@ glm::mat4 Camera:: proj()
     proj =glm::perspective(glm::radians(45.0f+fov), 600.0f/600.0f, 0.1f, 100.0f);
     return proj;
 }
+
+

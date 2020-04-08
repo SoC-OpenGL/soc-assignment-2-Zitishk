@@ -24,7 +24,7 @@ struct Camera
     bool firstmouse;
     
     float lastX , lastY;
-    
+    float yaw , pitch, uprotation;
     glm::vec3 Campos;
     glm::vec3 Tarpos;
     glm::vec3 camUp;
