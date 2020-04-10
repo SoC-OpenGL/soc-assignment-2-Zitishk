@@ -1,21 +1,14 @@
 
+
 #include "camera.hpp"
 #include <iostream>
 
 #include <math.h>
 #include <vector>
-#include <string>
-// Shader class , camera and cube contains vertex information
-#include "shader.hpp"
 
-#include "cube.hpp"
-
-#include "texturing.hpp"
-// Used for matrice and vector operations
-
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtc/type_ptr.hpp"
+#include "glm/glm/glm.hpp"
+#include "glm/glm/gtc/matrix_transform.hpp"
+#include "glm/glm/gtc/type_ptr.hpp"
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -24,8 +17,8 @@
 
 Camera:: Camera(void)
 {
-    WIDTH = 600;
-    HEIGHT = 600;
+    WIDTH = 1920.0f;
+    HEIGHT = 1080.0f;
     fov =0.0f;
     firstmouse = true;
     yaw=-90.0f;
@@ -73,14 +66,14 @@ void Camera:: proinp(GLFWwindow *window)
             uprotation =-179.0f;
         else
         {
-        float ro =0.0f;
-        ro+=0.3f;
-        glm::vec4 temp= glm::vec4(camUp,1.0f);
-        glm::mat4 trans = glm::mat4(1.0f);
-        trans = glm::rotate(trans, glm::radians(ro), glm::vec3(0.0, 0.0, 1.0));
-        temp = trans*temp;
-        
-        camUp= glm::vec3(temp.x,temp.y,temp.z);
+            float ro =0.0f;
+            ro+=0.3f;
+            glm::vec4 temp= glm::vec4(camUp,1.0f);
+            glm::mat4 trans = glm::mat4(1.0f);
+            trans = glm::rotate(trans, glm::radians(ro), glm::vec3(0.0, 0.0, 1.0));
+            temp = trans*temp;
+            
+            camUp= glm::vec3(temp.x,temp.y,temp.z);
         }
     }
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
@@ -92,14 +85,14 @@ void Camera:: proinp(GLFWwindow *window)
             uprotation =-179.0f;
         else
         {
-        float ro =0.0f;
-        ro-=0.3f;
-        glm::vec4 temp= glm::vec4(camUp,1.0f);
-        glm::mat4 trans = glm::mat4(1.0f);
-        trans = glm::rotate(trans, glm::radians(ro), glm::vec3(0.0, 0.0, 1.0));
-        temp = trans*temp;
-        
-        camUp= glm::vec3(temp.x,temp.y,temp.z);
+            float ro =0.0f;
+            ro-=0.3f;
+            glm::vec4 temp= glm::vec4(camUp,1.0f);
+            glm::mat4 trans = glm::mat4(1.0f);
+            trans = glm::rotate(trans, glm::radians(ro), glm::vec3(0.0, 0.0, 1.0));
+            temp = trans*temp;
+            
+            camUp= glm::vec3(temp.x,temp.y,temp.z);
         }
     }
     
@@ -165,7 +158,8 @@ glm::mat4 Camera:: view()
 glm::mat4 Camera:: proj()
 {
     glm::mat4 proj = glm::mat4(1.0f);
-    proj =glm::perspective(glm::radians(45.0f+fov), 600.0f/600.0f, 0.1f, 100.0f);
+    proj =glm::perspective(glm::radians(45.0f+fov), 1920.0f / 1080.0f, 0.1f, 100.0f);
     return proj;
 }
+
 

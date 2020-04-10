@@ -1,3 +1,4 @@
+  
 #ifndef shader_hpp
 #define shader_hpp
 
@@ -6,9 +7,11 @@
 #include <fstream>
 #include <string>
 
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtc/type_ptr.hpp"
+
+
+#include "glm/glm/glm.hpp"
+#include "glm/glm/gtc/matrix_transform.hpp"
+#include "glm/glm/gtc/type_ptr.hpp"
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -31,11 +34,6 @@ struct ShaderProgram
     
     const char * fShaderCode;
     
-    
-    const char* vertexPath="/Users/Zitishk/Desktop/Problem2/Problem2/shadercube.vs";
-    
-    const char* fragmentPath="/Users/Zitishk/Desktop/Problem2/Problem2/shadercube.fs";
-    
     ShaderProgram(const char* vspath,const char* fspath);
     
     void Use(void);
@@ -48,3 +46,4 @@ struct ShaderProgram
 
 
 #endif /* shader_hpp */
+

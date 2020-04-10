@@ -1,3 +1,4 @@
+
 #ifndef camera_hpp
 #define camera_hpp
 
@@ -7,9 +8,9 @@
 #include <vector>
 #include <string>
 
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtc/type_ptr.hpp"
+#include "glm/glm/glm.hpp"
+#include "glm/glm/gtc/matrix_transform.hpp"
+#include "glm/glm/gtc/type_ptr.hpp"
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -39,4 +40,3 @@ struct Camera
     
 };
 #endif /* camera_hpp */
-

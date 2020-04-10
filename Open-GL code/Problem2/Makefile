@@ -5,10 +5,10 @@ LIBS=$(OPENGLLIB) $(GLEWLIB) $(GLFWLIB)
 LDFLAGS=-L/usr/local/lib 
 CPPFLAGS=-I/usr/local/include
 
-BIN1=bin/ans
-SRCS1=main.cpp utility/cube.cpp utility/shader.cpp utility/camera.cpp
+BIN1=bin/q2
+SRCS1=q2.cpp utility/readfile.cpp utility/shader.cpp utility/camera.cpp Textures/texture.cpp utility/cube.cpp
 
-INCLUDES=
+INCLUDES=utility/readfile.hpp utility/shader.hpp utility/camera.hpp Textures/texture.hpp
 
 all: $(BIN1) 
 $(BIN1): $(SRCS1) $(INCLUDES)
